@@ -3,18 +3,18 @@ import sqlite3
 
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import QIcon
-from PyQt5 import uic
+from coffee import Ui_Form
+from addEditCoffeeForm import Ui_Coffee_Form
 
 WRONG_QUERY = 'ошибка'
 
 
-class Example(QWidget):
+class Example(QWidget, Ui_Form):
     def __init__(self):
         super().__init__()
+        self.setupUi(self)
         self.resize(800, 600)
         self.setWindowTitle('Каталог')
-
-        uic.loadUi('main.ui', self)
 
         self.btn_add.clicked.connect(self.add_record)
         self.btn_upd.clicked.connect(self.update_record)
@@ -23,7 +23,7 @@ class Example(QWidget):
         self.table.clicked.connect(self.clear_text)
         self.table.doubleClicked.connect(self.update_record)
 
-        self.con = sqlite3.connect('coffee.sqlite')
+        self.con = sqlite3.connect('data/coffee.sqlite')
         self.cur = self.con.cursor()
         self.results = self.cur.execute('SELECT * FROM Coffee').fetchall()
         self.titles = [description[0].capitalize() for description in self.cur.description]
@@ -125,11 +125,11 @@ class Example(QWidget):
         self.con.close()
 
 
-class CoffeeDialog(QDialog):
+class CoffeeDialog(QDialog, Ui_Coffee_Form):
     def __init__(self, parent, id=-1, title='', level='', in_seeds='', cost='', volume=''):
         super().__init__(parent)
+        self.setupUi(self)
         self.accepted = False
-        uic.loadUi('addEditCoffeeForm.ui', self)
         self.id = id
         self.title.setText(title)
         self.level.setText(level)
