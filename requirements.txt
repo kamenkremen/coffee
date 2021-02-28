@@ -1,2 +1,3 @@
-PyQt5~=5.15.2
-pyinstaller~=4.2
+sys
+sqlite3
+PyQt5
